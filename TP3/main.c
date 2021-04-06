@@ -21,5 +21,7 @@ int main() {
 
     printf("%d", l->suivant->suivant->nombre_vaccins);
 
+    //ta mere en Y
+
     return 0;
 }
