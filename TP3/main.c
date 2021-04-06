@@ -17,11 +17,10 @@ int main() {
 
     s2->suivant=s3;
 
-    t_semaine_elt *l = ajouterVaccinS(s, 4, 8);
+    t_semaine_elt *l = deduireVaccinS(s, 1, 3);
 
-    printf("%d", l->suivant->suivant->nombre_vaccins);
+    printf("%d", l->suivant->nombre_vaccins);
 
-    //ta mere en Y
 
     return 0;
 }
