@@ -50,9 +50,10 @@ t_vaccin_elt *creerVaccin(char *marque){
 
 t_semaine_elt *ajouterVaccinS(t_semaine_elt *liste, int semaine, int nb_vaccins){
 
-    t_semaine_elt * liste1 =liste;
+    t_semaine_elt * liste1 = liste;
 
-    while (liste1->suivant!=NULL && semaine<liste1->suivant->numero_semaine){
+    while (liste1->suivant!=NULL && semaine>liste1->suivant->numero_semaine){
+        printf("%d\n", liste1->numero_semaine);
         liste1=liste1->suivant;
     }
 
@@ -77,19 +78,36 @@ t_semaine_elt *ajouterVaccinS(t_semaine_elt *liste, int semaine, int nb_vaccins)
 t_semaine_elt *deduireVaccinS(t_semaine_elt *liste, int semaine, int nb_vaccins){
         t_semaine_elt * current = liste ;
 
-        while (current->suivant!=NULL && current->numero_semaine!=semaine){
+        while (current->suivant!=NULL && current->suivant->numero_semaine!=semaine){
+            //on verifie toujours le numero de semaine de la semaine suivante pour pouvoir gérer la supression d'une semaine
             current=current->suivant;
         }
 
         if(current->suivant==NULL) {
-            printf("la semaine n'existe pas\n");
+            if (current->numero_semaine==semaine){ //cas de le liste unique
+                if(current->nombre_vaccins-nb_vaccins<=0){
+                    free(liste);
+                    return 0;
+                }
+                else {
+                    current->nombre_vaccins-=nb_vaccins;
+                    return current;
+                }
+            }
+            else {
+                printf("la semaine n'existe pas\n");
+                return 0;
+            }
+        }
+
+        if(current->suivant->nombre_vaccins-nb_vaccins<=0){
+            current->suivant=current->suivant->suivant; //suppression dans la liste chaîné
             return 0;
         }
-
-        if(current->nombre_vaccins-nb_vaccins<=0){
-
+        else {
+            current->suivant->nombre_vaccins-=nb_vaccins; //déduction simple
+            return liste;
         }
-        current->nombre_vaccins-=nb_vaccins;
 
 };
 

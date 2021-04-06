@@ -3,13 +3,23 @@
 
 int main() {
     t_semaine_elt *s;
-    s=creerSemaine(4,5);
+    s=creerSemaine(3,5);
 
     t_semaine_elt *s2;
 
-    s2 = ajouterVaccinS(s, 4, 8);
+    t_semaine_elt *s3;
 
-    printf("%d", s2->nombre_vaccins);
+    s2 = creerSemaine(4, 6);
+
+    s3 = creerSemaine(5, 7);
+
+    s->suivant=s2;
+
+    s2->suivant=s3;
+
+    t_semaine_elt *l = ajouterVaccinS(s, 4, 8);
+
+    printf("%d", l->suivant->suivant->nombre_vaccins);
 
     return 0;
 }
