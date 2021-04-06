@@ -17,9 +17,11 @@ int main() {
 
     s2->suivant=s3;
 
-    t_semaine_elt *l = deduireVaccinS(s, 1, 3);
+    t_semaine_elt *l = deduireVaccinS(s, 5, 3);
 
-    printf("%d", l->suivant->nombre_vaccins);
+    if (l){
+        printf("%d", l->suivant->suivant->nombre_vaccins);
+    }
 
 
     return 0;

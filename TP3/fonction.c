@@ -75,11 +75,13 @@ t_semaine_elt *ajouterVaccinS(t_semaine_elt *liste, int semaine, int nb_vaccins)
     return liste;
 };
 
+
 t_semaine_elt *deduireVaccinS(t_semaine_elt *liste, int semaine, int nb_vaccins){
         t_semaine_elt * current = liste ;
 
-        while (current->suivant!=NULL && current->suivant->numero_semaine!=semaine){
+        while (current->suivant!=NULL && current->suivant->numero_semaine!=semaine && current->numero_semaine!=semaine){
             //on verifie toujours le numero de semaine de la semaine suivante pour pouvoir gérer la supression d'une semaine
+            //la dernière condition permet simplement de vérifier si le permière élément est le bon
             current=current->suivant;
         }
 
@@ -94,17 +96,24 @@ t_semaine_elt *deduireVaccinS(t_semaine_elt *liste, int semaine, int nb_vaccins)
                     return current;
                 }
             }
-            else {
+            else { //cas où la semaine n'existe pas
                 printf("la semaine n'existe pas\n");
                 return 0;
             }
-        }
+        } else if (current->numero_semaine==semaine) { //cas du premier élément
+            if (current->nombre_vaccins-nb_vaccins<=0) {
+                free(current);
+                return 0;
+            }
+            else current->nombre_vaccins-=nb_vaccins;
 
-        if(current->suivant->nombre_vaccins-nb_vaccins<=0){
+        } else if (current->suivant->nombre_vaccins-nb_vaccins<=0){ //cas simple mais avec suppression de la semaine
+            t_semaine_elt *sup=current->suivant;
             current->suivant=current->suivant->suivant; //suppression dans la liste chaîné
+            free(sup);
             return 0;
         }
-        else {
+        else { //cas le plus simple : semaien trouvé mais on ne doit pas la supprimer
             current->suivant->nombre_vaccins-=nb_vaccins; //déduction simple
             return liste;
         }
