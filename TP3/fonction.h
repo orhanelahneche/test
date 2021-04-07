@@ -4,6 +4,12 @@
 
 #ifndef TP3_FONCTION_H
 #define TP3_FONCTION_H
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+
+
+
 typedef struct semaine_elt {
     unsigned int numero_semaine ;
     unsigned int nombre_vaccins ;
@@ -33,4 +39,9 @@ t_semaine_elt *ajouterVaccinS(t_semaine_elt *liste, int semaine, int nb_vaccins)
 t_semaine_elt *deduireVaccinS(t_semaine_elt *liste, int semaine, int nb_vaccins);
 
 viderbuffer();
+
+void afficherStock(t_vaccin_elt *vaccin);
+
+t_vaccin_elt * tab ;
+int taille;
 #endif //TP3_FONCTION_H

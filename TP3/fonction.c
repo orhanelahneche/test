@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
 t_semaine_elt *creerSemaine(int num_semaine, int nb_vaccins){
     t_semaine_elt * s=malloc(sizeof(t_semaine_elt));
     if (s==NULL) exit(EXIT_FAILURE);
@@ -117,6 +118,46 @@ t_semaine_elt *deduireVaccinS(t_semaine_elt *liste, int semaine, int nb_vaccins)
             current->suivant->nombre_vaccins-=nb_vaccins; //déduction simple
             return liste;
         }
+
+};
+
+void afficherStock(t_vaccin_elt *vaccin){
+
+    int i = 0;
+    t_vaccin_elt * copietab=tab;
+
+    while (i<taille && vaccin!=copietab) {
+        copietab ++;
+        i++;
+    }
+
+    if (i==taille) printf("le vaccin n'existe pas ");
+    else{
+        printf("%s : \n", copietab->marque);
+        t_ville_elt * vil = copietab->villes_dispo;
+        while(vil!=NULL){
+
+            t_semaine_elt * sem = vil->semaines_planifiees;
+            unsigned int total = 0;
+
+            while(sem !=NULL){
+                total+=sem->nombre_vaccins;
+                sem=sem->suivant;
+            }
+
+            printf(" --- %s [Total = %d]\n", vil->nom_ville, total);
+
+            sem = vil->semaines_planifiees;
+
+            while(sem !=NULL){
+                printf("    --- semaine %d : %d\n", sem->numero_semaine, sem->nombre_vaccins);
+                sem=sem->suivant;
+            }
+
+            vil=vil->suivant;
+        }
+    }
+
 
 };
 

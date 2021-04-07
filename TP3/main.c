@@ -17,11 +17,34 @@ int main() {
 
     s2->suivant=s3;
 
-    t_semaine_elt *l = deduireVaccinS(s, 5, 3);
+    tab = malloc(sizeof(t_vaccin_elt*)*5);
+
+    taille = 1;
+
+    t_vaccin_elt *v = creerVaccin("moderna");
+
+    t_ville_elt *vil=creerVille("Noyon");
+
+    v->villes_dispo = vil;
+
+    vil->semaines_planifiees = s;
+
+    tab=v;
+
+    t_ville_elt *vil2=creerVille("compiegne");
+
+    vil->suivant=vil2;
+
+    vil2->semaines_planifiees = s;
+
+    afficherStock(v);
+
+    /*t_semaine_elt *l = deduireVaccinS(s, 5, 3);
 
     if (l){
         printf("%d", l->suivant->suivant->nombre_vaccins);
-    }
+    }*/
+
 
 
     return 0;
