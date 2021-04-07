@@ -6,21 +6,17 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/hocin/Desktop/NF16/TP3/fonction.c
-fonction.h
 C:/Users/hocin/Desktop/NF16/TP3/fonction.h
 stdlib.h
 -
-stdio.h
--
 string.h
+-
+stdio.h
 -
 
-C:/Users/hocin/Desktop/NF16/TP3/fonction.h
-stdlib.h
--
-string.h
--
+C:/Users/hocin/Desktop/NF16/TP3/main.c
 stdio.h
 -
+fonction.h
+C:/Users/hocin/Desktop/NF16/TP3/fonction.h
 

@@ -27,6 +27,16 @@ int main() {
 
     v->villes_dispo = vil;
 
+    t_semaine_elt * sb=creerSemaine(3,5);
+
+    t_semaine_elt * s2b = creerSemaine(4, 6);
+
+    t_semaine_elt * s3b = creerSemaine(5, 7);
+
+    sb->suivant=s2b;
+
+    s2b->suivant=s3b;
+
     vil->semaines_planifiees = s;
 
     tab=v;
@@ -35,7 +45,19 @@ int main() {
 
     vil->suivant=vil2;
 
-    vil2->semaines_planifiees = s;
+    vil2->semaines_planifiees = sb;
+
+    vil->semaines_planifiees = ajouterVaccinS(vil->semaines_planifiees, 2, 3);
+
+    vil->semaines_planifiees = ajouterVaccinS(vil->semaines_planifiees, 1, 3);
+
+    vil->semaines_planifiees = ajouterVaccinS(vil->semaines_planifiees, 4, 3);
+
+    vil->nombre_vaccins_total=27;
+
+    vil2->nombre_vaccins_total=18;
+
+    //printf("%d", vil->semaines_planifiees->suivant->numero_semaine);
 
     afficherStock(v);
 

@@ -137,17 +137,9 @@ void afficherStock(t_vaccin_elt *vaccin){
         t_ville_elt * vil = copietab->villes_dispo;
         while(vil!=NULL){
 
-            t_semaine_elt * sem = vil->semaines_planifiees;
-            unsigned int total = 0;
+            printf(" --- %s [Total = %d]\n", vil->nom_ville, vil->nombre_vaccins_total);
 
-            while(sem !=NULL){
-                total+=sem->nombre_vaccins;
-                sem=sem->suivant;
-            }
-
-            printf(" --- %s [Total = %d]\n", vil->nom_ville, total);
-
-            sem = vil->semaines_planifiees;
+            t_semaine_elt *sem = vil->semaines_planifiees;
 
             while(sem !=NULL){
                 printf("    --- semaine %d : %d\n", sem->numero_semaine, sem->nombre_vaccins);
