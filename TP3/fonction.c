@@ -157,7 +157,38 @@ void afficherStock(t_vaccin_elt *vaccin){
             vil=vil->suivant;
         }
     }
-
-
 };
+
+
+void afficherPlanification(t_vaccin_elt *vaccin, int semaine){
+    int i = 0;
+    t_vaccin_elt * copietab=tab;
+
+    while (i<taille && vaccin!=copietab) {
+        copietab ++;
+        i++;
+    }
+
+    if (i==taille) printf("le vaccin n'existe pas ");
+    else{
+        printf("%s : \n", copietab->marque);
+        printf(" --- semaine %d :\n", semaine);
+        t_ville_elt * vil = copietab->villes_dispo;
+
+
+        while(vil!=NULL){
+
+            t_semaine_elt * sem = vil->semaines_planifiees;
+
+            while(sem !=NULL && sem->numero_semaine!=semaine){
+                sem=sem->suivant;
+            }
+
+            printf("    --- %s : %d\n", vil->nom_ville, sem->nombre_vaccins);
+
+            vil=vil->suivant;
+        }
+    }
+};
+
 

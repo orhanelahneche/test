@@ -39,6 +39,8 @@ int main() {
 
     afficherStock(v);
 
+    afficherPlanification(v, 4);
+
     /*t_semaine_elt *l = deduireVaccinS(s, 5, 3);
 
     if (l){

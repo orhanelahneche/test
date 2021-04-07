@@ -42,6 +42,8 @@ viderbuffer();
 
 void afficherStock(t_vaccin_elt *vaccin);
 
+void afficherPlanification(t_vaccin_elt *vaccin, int semaine);
+
 t_vaccin_elt * tab ;
 int taille;
 #endif //TP3_FONCTION_H
