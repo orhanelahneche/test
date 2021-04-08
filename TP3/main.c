@@ -25,13 +25,11 @@ int main() {
 
     t_ville_elt *vil=creerVille("Noyon");
 
-    v->villes_dispo = vil;
-
     t_semaine_elt * sb=creerSemaine(3,5);
 
     t_semaine_elt * s2b = creerSemaine(4, 6);
 
-    t_semaine_elt * s3b = creerSemaine(5, 7);
+    t_semaine_elt * s3b = creerSemaine(6, 7);
 
     sb->suivant=s2b;
 
@@ -43,7 +41,9 @@ int main() {
 
     t_ville_elt *vil2=creerVille("compiegne");
 
-    vil->suivant=vil2;
+    v->villes_dispo = vil2;
+
+    vil2->suivant=vil;
 
     vil2->semaines_planifiees = sb;
 
@@ -56,6 +56,12 @@ int main() {
     vil->nombre_vaccins_total=27;
 
     vil2->nombre_vaccins_total=18;
+
+    vil->semaines_planifiees = deduireVaccinS(vil->semaines_planifiees,2,3);
+
+    v->villes_dispo=ajouterVaccinV(v->villes_dispo,"Marseille", 5, 22);
+
+    v->villes_dispo=ajouterVaccinV(v->villes_dispo,"compiegne", 7, 3);
 
     //printf("%d", vil->semaines_planifiees->suivant->numero_semaine);
 

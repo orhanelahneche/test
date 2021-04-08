@@ -51,75 +51,128 @@ t_vaccin_elt *creerVaccin(char *marque){
 
 t_semaine_elt *ajouterVaccinS(t_semaine_elt *liste, int semaine, int nb_vaccins){
 
-    t_semaine_elt * liste1 = liste;
-
-    while (liste1->suivant!=NULL && semaine>liste1->suivant->numero_semaine){
-        printf("%d\n", liste1->numero_semaine);
-        liste1=liste1->suivant;
+    if (liste == NULL){
+        printf("il n'y a pas de semaine\n");
+        t_semaine_elt * s = creerSemaine(semaine, nb_vaccins);
+        return s;
     }
+    else {
+            t_semaine_elt *liste1 = liste;
 
-    if (liste1->suivant!=NULL && semaine==liste1->suivant->numero_semaine) liste1->suivant->nombre_vaccins+=nb_vaccins;
-    else if(liste1->numero_semaine==semaine) liste1->nombre_vaccins+=nb_vaccins; //cas d'une liste d'un élément de la semaine recheché
-    else{
-        t_semaine_elt * s;
-        s = creerSemaine(semaine,nb_vaccins);
-        if (liste1->numero_semaine<semaine) {
-            s->suivant = liste1->suivant;
-            liste1->suivant = s;
-        }
-        else {
-            s->suivant=liste1;
-            liste=s;
-        }
-    }
+            while (liste1->suivant != NULL && semaine > liste1->suivant->numero_semaine) {
+                printf("%d\n", liste1->numero_semaine);
+                liste1 = liste1->suivant;
+            }
 
-    return liste;
+            if (liste1->suivant != NULL && semaine == liste1->suivant->numero_semaine)
+                liste1->suivant->nombre_vaccins += nb_vaccins; // cas normal
+            else if (liste1->numero_semaine == semaine)
+                liste1->nombre_vaccins += nb_vaccins; //cas d'une liste d'un élément de la semaine recheché
+            else {
+                t_semaine_elt *s;
+                s = creerSemaine(semaine, nb_vaccins);
+                if (liste1->numero_semaine < semaine) {
+                    s->suivant = liste1->suivant;
+                    liste1->suivant = s;
+                } else {
+                    s->suivant = liste1;
+                    liste = s;
+                }
+            }
+
+            return liste;
+        }
 };
 
 
 t_semaine_elt *deduireVaccinS(t_semaine_elt *liste, int semaine, int nb_vaccins){
-        t_semaine_elt * current = liste ;
+    if (liste ==NULL){
+        printf("il n'y a pas de semaine planifie");
+        return 0;
+    }
+    else {
+        t_semaine_elt *current = liste;
 
-        while (current->suivant!=NULL && current->suivant->numero_semaine!=semaine && current->numero_semaine!=semaine){
-            //on verifie toujours le numero de semaine de la semaine suivante pour pouvoir gérer la supression d'une semaine
-            //la dernière condition permet simplement de vérifier si le permière élément est le bon
-            current=current->suivant;
+        while (current->suivant != NULL && current->suivant->numero_semaine<semaine) {
+            current = current->suivant;
         }
 
-        if(current->suivant==NULL) {
-            if (current->numero_semaine==semaine){ //cas de le liste unique
-                if(current->nombre_vaccins-nb_vaccins<=0){
+        if (current->numero_semaine == semaine) { //cas de le liste unique ou du premier élément
+            if (current->nombre_vaccins - nb_vaccins <= 0) {
+                if (current->suivant==NULL){ //cas de la liste unique
                     free(liste);
                     return 0;
+                }else{ //cas du premier élément
+                    t_semaine_elt * s = liste->suivant;
+                    free(liste);
+                    return s;
                 }
-                else {
-                    current->nombre_vaccins-=nb_vaccins;
-                    return current;
-                }
+            } else {
+                current->nombre_vaccins -= nb_vaccins;
+                return current;
             }
-            else { //cas où la semaine n'existe pas
-                printf("la semaine n'existe pas\n");
-                return 0;
-            }
-        } else if (current->numero_semaine==semaine) { //cas du premier élément
-            if (current->nombre_vaccins-nb_vaccins<=0) {
-                free(current);
-                return 0;
-            }
-            else current->nombre_vaccins-=nb_vaccins;
-
-        } else if (current->suivant->nombre_vaccins-nb_vaccins<=0){ //cas simple mais avec suppression de la semaine
-            t_semaine_elt *sup=current->suivant;
-            current->suivant=current->suivant->suivant; //suppression dans la liste chaîné
-            free(sup);
+        }else if(current->suivant==NULL){ //on a parcouru toute la liste et la semaine n'existe pas
+            printf("la semaine n'existe pas\n");
             return 0;
-        }
-        else { //cas le plus simple : semaien trouvé mais on ne doit pas la supprimer
-            current->suivant->nombre_vaccins-=nb_vaccins; //déduction simple
+        }else{ //cas le plus simple
+            if (current->suivant->nombre_vaccins - nb_vaccins <=0) { //cas simple mais avec suppression de la semaine
+                t_semaine_elt *sup = current->suivant;
+                current->suivant = current->suivant->suivant; //suppression dans la liste chaîné
+                free(sup);
+                return liste;
+            } else { //cas le plus simple : semaien trouvé mais on ne doit pas la supprimer
+                current->suivant->nombre_vaccins -= nb_vaccins; //déduction simple
             return liste;
+            }
         }
+    }
+}
 
-};
+
+t_ville_elt *ajouterVaccinV(t_ville_elt *liste, char* ville, int semaine, int nb_vaccins){
+    t_ville_elt* parcours;
+
+    if (liste==NULL) {
+        printf("la liste est nulle, je cree la nouvelle ville %s\n", ville);
+        liste = creerVille(ville);
+        liste->nombre_vaccins_total += nb_vaccins;
+        liste->semaines_planifiees=ajouterVaccinS(liste->semaines_planifiees,semaine,nb_vaccins);
+        return liste;
+    }
+    else {
+        parcours = liste;
+        while (parcours!=NULL) {
+            if (strcmp(parcours->nom_ville,ville)==0) {
+                parcours->nombre_vaccins_total += nb_vaccins;
+                parcours->semaines_planifiees = ajouterVaccinS(parcours->semaines_planifiees, semaine, nb_vaccins);
+                return liste;
+            }
+            parcours = parcours->suivant;
+        }
+        printf("la ville n'existe pas\n");
+
+        parcours = liste;
+        if (parcours == NULL) printf("ça beug gros\n");
+
+        while (parcours->suivant!=NULL && parcours->suivant->nombre_vaccins_total<=nb_vaccins) {
+                    parcours = parcours->suivant;
+            }
+
+            t_ville_elt* nouvelleVille = creerVille(ville);
+            nouvelleVille->nombre_vaccins_total += nb_vaccins;
+            nouvelleVille->semaines_planifiees = ajouterVaccinS(nouvelleVille->semaines_planifiees,semaine,nb_vaccins);
+
+        if (parcours->nombre_vaccins_total<=nb_vaccins){
+            nouvelleVille->suivant = parcours->suivant;
+            parcours->suivant = nouvelleVille;
+            return liste;
+        } else{
+            nouvelleVille->suivant=parcours;
+            return nouvelleVille;
+        }
+    }
+}
+
 
 void afficherStock(t_vaccin_elt *vaccin){
 
