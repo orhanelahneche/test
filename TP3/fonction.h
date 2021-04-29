@@ -16,12 +16,12 @@ typedef struct semaine_elt {
     struct semaine_elt* suivant;
 } t_semaine_elt;
 
-typedef struct ville_elt{
+typedef struct ville_elt {
     char* nom_ville;
     unsigned int nombre_vaccins_total;
     t_semaine_elt * semaines_planifiees;
     struct ville_elt* suivant;
-}t_ville_elt;
+} t_ville_elt;
 
 typedef struct vaccin_elt {
     char* marque;
@@ -40,12 +40,18 @@ t_semaine_elt *deduireVaccinS(t_semaine_elt *liste, int semaine, int nb_vaccins)
 
 t_ville_elt *ajouterVaccinV(t_ville_elt *liste, char* ville, int semaine, int nb_vaccins);
 
+t_ville_elt *deduireVaccinV(t_ville_elt *liste, char* ville, int semaine, int nb_vaccins);
+
 viderbuffer();
 
 void afficherStock(t_vaccin_elt *vaccin);
 
 void afficherPlanification(t_vaccin_elt *vaccin, int semaine);
 
-t_vaccin_elt * tab ;
+t_vaccin_elt *fusionnerStocks(t_vaccin_elt *vaccinA, t_vaccin_elt *vaccinB);
+
+t_ville_elt *deduireVaccinV(t_ville_elt *liste, char* ville, int semaine, int nb_vaccins);
+
+t_vaccin_elt ** tab ;
 int taille;
 #endif //TP3_FONCTION_H
